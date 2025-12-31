@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="pt-PT">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Everywhere Digital School - Login</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -16,7 +19,11 @@
             --text-light: #666666;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
         body {
             font-family: 'Open Sans', sans-serif;
@@ -322,6 +329,7 @@
         }
     </style>
 </head>
+
 <body>
 
     <div class="brand-panel">
@@ -345,12 +353,12 @@
                     <div class="stat-label">Cidades</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">950+</div>
-                    <div class="stat-label">Alunos</div>
+                    <div class="stat-value">987</div>
+                    <div class="stat-label">Presenças</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-value">9.2</div>
-                    <div class="stat-label">NPS Médio</div>
+                    <div class="stat-value">10.9k€</div>
+                    <div class="stat-label">Receita</div>
                 </div>
             </div>
         </div>
@@ -407,7 +415,8 @@
         </form>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"
+        onerror="alert('Erro ao carregar Supabase. Verifique a sua internet.')"></script>
     <script>
         let supabase;
         let config;
@@ -416,16 +425,24 @@
         async function init() {
             try {
                 const response = await fetch('/api/config');
+                if (!response.ok) throw new Error('Falha ao carregar configuração');
+
                 config = await response.json();
+
+                if (!window.supabase) {
+                    throw new Error('Supabase SDK não carregou');
+                }
+
                 supabase = window.supabase.createClient(config.supabaseUrl, config.supabaseKey);
 
                 // Check if already logged in
-                const { data: { session } } = await supabase.auth.getSession();
+                const { data: { session }, error } = await supabase.auth.getSession();
                 if (session) {
                     window.location.href = '/app';
                 }
             } catch (error) {
                 console.error('Failed to initialize:', error);
+                showAlert('Erro de sistema: ' + error.message, 'error');
             }
         }
 
@@ -497,6 +514,11 @@
                 return;
             }
 
+            if (!supabase) {
+                showAlert('Erro: Sistema não inicializado. Recarregue a página.', 'error');
+                return;
+            }
+
             btn.disabled = true;
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> A criar conta...';
             hideAlert();
@@ -513,6 +535,7 @@
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
             } catch (error) {
+                console.error(error);
                 showAlert(error.message || 'Erro ao criar conta', 'error');
                 btn.disabled = false;
                 btn.innerHTML = '<i class="fas fa-user-plus"></i> Criar Conta';
@@ -542,4 +565,5 @@
         }
     </script>
 </body>
+
 </html>

@@ -41,6 +41,73 @@ app.post('/api/perplexity', async (req, res) => {
   }
 });
 
+// AI Search endpoint for deep research
+app.post('/api/ai-search', async (req, res) => {
+  try {
+    const { query, location, level, type } = req.body;
+
+    if (!query || !location) {
+      return res.status(400).json({ error: 'Query and location are required' });
+    }
+
+    const systemPrompt = `És um assistente especializado em análise de mercado e estratégia para a Lisbon Digital School (LDS),
+uma escola de formação em competências digitais com sede em Lisboa, Portugal.
+A LDS está a realizar uma digressão chamada "Everywhere Digital School" por várias cidades de Portugal.
+
+O teu objectivo é fornecer informação detalhada, actualizada e accionável para ajudar a planear eventos em diferentes localidades.
+Responde sempre em Português de Portugal.
+Usa formatação Markdown para estruturar a resposta.
+Sê específico com nomes de empresas, instituições, contactos e links quando possível.
+Baseia as tuas respostas em dados reais e actualizados.`;
+
+    const response = await fetch('https://api.perplexity.ai/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${process.env.PERPLEXITY_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        model: 'sonar',
+        messages: [
+          {
+            role: 'system',
+            content: systemPrompt
+          },
+          {
+            role: 'user',
+            content: query
+          }
+        ],
+        temperature: 0.2,
+        max_tokens: 4000,
+        search_recency_filter: 'month'
+      })
+    });
+
+    const data = await response.json();
+
+    if (data.error) {
+      console.error('Perplexity API error:', data.error);
+      return res.status(500).json({ error: data.error.message || 'AI search failed' });
+    }
+
+    const content = data.choices?.[0]?.message?.content || 'Sem resultados disponíveis';
+
+    res.json({
+      content,
+      location,
+      level,
+      type,
+      timestamp: new Date().toISOString(),
+      citations: data.citations || []
+    });
+
+  } catch (error) {
+    console.error('AI Search error:', error);
+    res.status(500).json({ error: 'Erro ao fazer pesquisa IA: ' + error.message });
+  }
+});
+
 // Serve the login page as default
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
@@ -51,7 +118,12 @@ app.get('/app', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'app.html'));
 });
 
-// Start server
-app.listen(PORT, () => {
-  console.log(`🚀 Everywhere Digital School server running at http://localhost:${PORT}`);
-});
+// Export the app for Vercel
+module.exports = app;
+
+// Start server only if running directly
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`🚀 Everywhere Digital School server running at http://localhost:${PORT}`);
+  });
+}
