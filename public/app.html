@@ -3902,19 +3902,42 @@
 
         // ==================== DASHBOARD ====================
         async function loadDashboard() {
-            const { data: events, error } = await supabase
-                .from('tour_events')
-                .select('*')
-                .order('event_date', { ascending: false });
+            // MOCK DATA - Dashboard works without Supabase
+            const mockEvents = [
+                {
+                    id: 1,
+                    city: 'Funchal',
+                    event_date: '2026-02-15',
+                    status: 'upcoming',
+                    registrations: 145,
+                    max_capacity: 200,
+                    certificates_target: 25,
+                    certificates_sold: 8,
+                    venue: 'Biblioteca Municipal'
+                },
+                {
+                    id: 2,
+                    city: 'Porto',
+                    event_date: '2025-11-20',
+                    status: 'completed',
+                    registrations: 280,
+                    max_capacity: 300,
+                    nps_score: 9.4
+                },
+                {
+                    id: 3,
+                    city: 'Coimbra',
+                    event_date: '2025-10-15',
+                    status: 'completed',
+                    registrations: 220,
+                    max_capacity: 250,
+                    nps_score: 9.2
+                }
+            ];
 
-            if (error) {
-                console.error('Error loading events:', error);
-                return;
-            }
-
-            eventsData = events;
-            const nextEvent = events.find(e => e.status === 'upcoming');
-            const completedEvents = events.filter(e => e.status === 'completed');
+            eventsData = mockEvents;
+            const nextEvent = mockEvents.find(e => e.status === 'upcoming');
+            const completedEvents = mockEvents.filter(e => e.status === 'completed');
             const totalStudents = completedEvents.reduce((sum, e) => sum + (e.registrations || 0), 0);
 
             // Render KPIs
@@ -4088,19 +4111,36 @@
 
         // ==================== PIPELINE ====================
         async function loadPipeline() {
-            const { data: pipeline, error } = await supabase
-                .from('tour_pipeline')
-                .select('*')
-                .order('entity_name');
+            // MOCK DATA - Pipeline works without Supabase
+            const mockPipeline = [
+                {
+                    id: 1,
+                    entity_type: 'camara',
+                    entity_name: 'CM Braga',
+                    status: 'por_contactar',
+                    contact_email: 'geral@cm-braga.pt',
+                    notes: 'Contacto inicial pendente'
+                },
+                {
+                    id: 2,
+                    entity_type: 'camara',
+                    entity_name: 'CM Viseu',
+                    status: 'em_negociacao',
+                    contact_email: 'comunicacao@cmviseu.pt',
+                    notes: 'Aguardar resposta sobre datas'
+                },
+                {
+                    id: 3,
+                    entity_type: 'junta',
+                    entity_name: 'JF Alvalade',
+                    status: 'por_contactar',
+                    contact_email: 'comunicacao@jf-alvalade.pt'
+                }
+            ];
 
-            if (error) {
-                console.error('Error loading pipeline:', error);
-                return;
-            }
-
-            pipelineData = pipeline;
-            const camaras = pipeline.filter(p => p.entity_type === 'camara');
-            const juntas = pipeline.filter(p => p.entity_type === 'junta');
+            pipelineData = mockPipeline;
+            const camaras = mockPipeline.filter(p => p.entity_type === 'camara');
+            const juntas = mockPipeline.filter(p => p.entity_type === 'junta');
 
             renderKanban(camaras);
             renderJuntasTable(juntas);
