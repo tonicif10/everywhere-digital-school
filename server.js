@@ -110,6 +110,11 @@ Baseia as tuas respostas em dados reais e actualizados.`;
 
 // Serve the dashboard directly (auth temporarily disabled)
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'demo.html'));
+});
+
+// Full app (may have loading issues)
+app.get('/full', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'app.html'));
 });
 

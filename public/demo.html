@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Everywhere Digital School - Dashboard Demo</title>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;900&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --lds-yellow: #FFE600;
+            --lds-black: #000000;
+            --lds-blue: #0066FF;
+            --status-green: #00C853;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: #f5f5f5;
+            color: #111;
+        }
+
+        .header {
+            background: var(--lds-black);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 2rem;
+        }
+
+        .header .subtitle {
+            color: var(--lds-yellow);
+            margin-top: 5px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .kpi-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .kpi-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .kpi-val {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 2.5rem;
+            color: var(--lds-black);
+        }
+
+        .kpi-sub {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .section-title {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 900;
+            font-size: 1.5rem;
+            margin: 30px 0 15px;
+            text-transform: uppercase;
+        }
+
+        .event-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 4px solid var(--lds-yellow);
+        }
+
+        .event-card h3 {
+            font-family: 'Montserrat', sans-serif;
+            margin-bottom: 10px;
+        }
+
+        .event-meta {
+            display: flex;
+            gap: 20px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+
+        .badge-success {
+            background: #e8f5e9;
+            color: var(--status-green);
+        }
+
+        .badge-warning {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="header">
+        <h1>EVERYWHERE DIGITAL SCHOOL</h1>
+        <div class="subtitle">Dashboard de Gestão da Digressão</div>
+    </div>
+
+    <div class="container">
+        <div class="kpi-grid">
+            <div class="card">
+                <div class="kpi-label">Próxima Paragem</div>
+                <div class="kpi-val">FUNCHAL</div>
+                <div class="kpi-sub">15 Fevereiro 2026</div>
+            </div>
+
+            <div class="card">
+                <div class="kpi-label">Inscrições</div>
+                <div class="kpi-val">145</div>
+                <div class="kpi-sub" style="color: var(--status-green);">73% da Lotação</div>
+            </div>
+
+            <div class="card">
+                <div class="kpi-label">Break-Even (Certs)</div>
+                <div class="kpi-val">25</div>
+                <div class="kpi-sub">Vendidos: 8</div>
+            </div>
+
+            <div class="card">
+                <div class="kpi-label">Cidades Visitadas</div>
+                <div class="kpi-val">2</div>
+                <div class="kpi-sub">Total Alunos: 500</div>
+            </div>
+        </div>
+
+        <h2 class="section-title">Eventos Realizados</h2>
+
+        <div class="event-card">
+            <h3><i class="fas fa-map-marker-alt" style="color: var(--lds-yellow);"></i> Porto</h3>
+            <div class="event-meta">
+                <span><i class="fas fa-calendar"></i> 20 Novembro 2025</span>
+                <span><i class="fas fa-users"></i> 280 participantes</span>
+                <span><i class="fas fa-star"></i> NPS: 9.4/10</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <span class="badge badge-success">Concluído</span>
+            </div>
+        </div>
+
+        <div class="event-card">
+            <h3><i class="fas fa-map-marker-alt" style="color: var(--lds-yellow);"></i> Coimbra</h3>
+            <div class="event-meta">
+                <span><i class="fas fa-calendar"></i> 15 Outubro 2025</span>
+                <span><i class="fas fa-users"></i> 220 participantes</span>
+                <span><i class="fas fa-star"></i> NPS: 9.2/10</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <span class="badge badge-success">Concluído</span>
+            </div>
+        </div>
+
+        <h2 class="section-title">Próximos Passos</h2>
+
+        <div class="event-card">
+            <h3><i class="fas fa-tasks" style="color: var(--lds-blue);"></i> Pipeline Comercial</h3>
+            <div class="event-meta">
+                <span><i class="fas fa-building"></i> CM Braga - Por Contactar</span>
+                <span><i class="fas fa-handshake"></i> CM Viseu - Em Negociação</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <span class="badge badge-warning">Em Progresso</span>
+            </div>
+        </div>
+
+        <div
+            style="text-align: center; margin-top: 50px; padding: 30px; background: var(--lds-black); color: white; border-radius: 8px;">
+            <h2 style="font-family: 'Montserrat', sans-serif; margin-bottom: 10px;">✅ Dashboard a Funcionar!</h2>
+            <p>Esta é uma versão simplificada de demonstração.</p>
+            <p style="margin-top: 10px; font-size: 0.9rem; opacity: 0.8;">
+                Para aceder à versão completa com todas as funcionalidades,<br>
+                será necessário configurar corretamente o Supabase.
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>
