@@ -108,12 +108,17 @@ Baseia as tuas respostas em dados reais e actualizados.`;
   }
 });
 
-// Serve the login page as default
+// Serve the dashboard directly (auth temporarily disabled)
 app.get('/', (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'app.html'));
+});
+
+// Login page available at /login
+app.get('/login', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'login.html'));
 });
 
-// Serve the main app (protected by client-side auth)
+// Serve the main app (auth disabled)
 app.get('/app', (req, res) => {
   res.sendFile(path.join(__dirname, 'public', 'app.html'));
 });
